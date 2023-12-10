@@ -13,11 +13,30 @@ using System.Windows.Forms;
 
 namespace BattleshipMpClient
 {
-    class Client
+    public class Client
     {
-        public static TcpClient client = new TcpClient();
+        private static readonly object padlock = new object();
+        private static Client _instance;
+        private TcpClient client = new TcpClient();
 
-        public static void ConnectToServer(string ip, string port)
+        private Client() { }
+
+        public static Client GetInstance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new Client();
+                    }
+                    return _instance;
+                }
+            }
+        }
+
+        public void ConnectToServer(string ip, string port)
         {
             //client = new TcpClient();
             //IPEndPoint ipEnd = new IPEndPoint(IPAddress.Parse(ip), int.Parse(port));
@@ -35,7 +54,7 @@ namespace BattleshipMpClient
             }
         }
 
-        public static void ConnectCallback(IAsyncResult asyncResult)
+        public void ConnectCallback(IAsyncResult asyncResult)
         {
             try
             {
@@ -45,6 +64,23 @@ namespace BattleshipMpClient
             {
                 MessageBox.Show(ex.Message.ToString());
             }
+        }
+
+        public TcpClient TcpClient => client;
+
+        public void CloseAndDispose()
+        {
+            if (client != null)
+            {
+                client.Close();
+                client.Dispose();
+                client = null;
+            }
+        }
+
+        public bool IsConnected
+        {
+            get { return client != null && client.Connected; }
         }
     }
 }

@@ -9,15 +9,40 @@ using System.Windows.Forms;
 
 namespace BattleshipMp
 {
-    class Server
+    public class Server
     {
         //  Create socket and listen for incoming requests.
         //  The "ip" parameter is not used.
 
-        public static TcpListener listener;
-        public static TcpClient client = new TcpClient();
+        // thread-safety
+        private static readonly object padlock = new object();
 
-        public static void ServerStart(string ip, string port)
+        private static Server _instance;
+
+        private TcpListener listener;
+        private TcpClient client;
+
+        private Server() { }
+
+        // for accessing the instance of the server
+        public static Server GetInstance
+        {
+            get
+            {
+                lock (padlock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new Server();
+                    }
+                    return _instance;
+                }
+            }
+        }
+
+        public TcpClient Client => client;
+
+        public void ServerStart(string ip, string port)
         {
             try
             {
@@ -25,7 +50,6 @@ namespace BattleshipMp
                 listener = new TcpListener(IPAddress.Any, int.Parse(port));
                 listener.Start();
                 //client = listener.AcceptTcpClient();
-
                 listener.BeginAcceptTcpClient(AcceptClientCallback, null);
             }
             catch (Exception ex)
@@ -34,9 +58,29 @@ namespace BattleshipMp
             }
         }
 
-        public static void AcceptClientCallback(IAsyncResult asyncResult)
+        private void AcceptClientCallback(IAsyncResult asyncResult)
         {
             client = listener.EndAcceptTcpClient(asyncResult);
+        }
+
+        public bool IsClientConnected
+        {
+            get { return client != null && client.Connected; }
+        }
+
+        public bool IsListenerActive
+        {
+            get { return listener != null; }
+        }
+
+        public void CloseAndDispose()
+        {
+            client?.Close();
+            client?.Dispose();
+            client = null;
+
+            listener?.Stop();
+            listener = null;
         }
 
     }

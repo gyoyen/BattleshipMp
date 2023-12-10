@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BattleshipMpClient.Factory.Ship;
+using BattleshipMpClient.State;
 
 namespace BattleshipMpClient
 {
@@ -20,9 +22,9 @@ namespace BattleshipMpClient
 
         private void buttonConnectToServer_Click(object sender, EventArgs e)
         {
-            Client.ConnectToServer(textBoxIpAddress.Text, textBoxPort.Text);
+            Client.GetInstance.ConnectToServer(textBoxIpAddress.Text, textBoxPort.Text);
 
-            if (Client.client != null)
+            if (Client.GetInstance.TcpClient != null)
             {
                 buttonGoToBoard.Enabled = true;
                 labelServerState.Text = "Connection successful. You can continue.";
@@ -31,10 +33,11 @@ namespace BattleshipMpClient
                 labelServerState.Text = "You must connect to the server.";
         }
 
+        //  Go to ship theme selection form, Form12
         private void buttonGoToBoard_Click(object sender, EventArgs e)
         {
-            Form2_PreparatoryScreen frm2 = new Form2_PreparatoryScreen();
-            frm2.Show();
+            GameContext gameContext = GameContext.Instance;
+            gameContext.TransitionTo(new SetupState());
             this.Visible = false;
         }
 
@@ -45,9 +48,7 @@ namespace BattleshipMpClient
 
         private void Form1_ClientScreen_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Client.client.Close();
-            Client.client.Dispose();
-            Client.client = null;
+            Client.GetInstance.CloseAndDispose();
             Environment.Exit(1);
         }
     }

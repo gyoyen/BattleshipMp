@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
@@ -149,6 +148,9 @@
             this.J5 = new System.Windows.Forms.Button();
             this.I1 = new System.Windows.Forms.Button();
             this.J1 = new System.Windows.Forms.Button();
+            this.itemButton = new System.Windows.Forms.Button();
+            this.itemButton2 = new System.Windows.Forms.Button();
+            this.itemButton3 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label21 = new System.Windows.Forms.Label();
@@ -275,7 +277,10 @@
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.labelAttackTurn = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer1 = new System.Windows.Forms.Timer();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -1880,6 +1885,57 @@
             this.J1.TabIndex = 62;
             this.J1.UseVisualStyleBackColor = false;
             // 
+            // itemButton
+            // 
+            this.itemButton.BackColor = System.Drawing.Color.Transparent;
+            this.itemButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.itemButton.Enabled = false;
+            this.itemButton.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.itemButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.itemButton.ForeColor = System.Drawing.Color.Black;
+            this.itemButton.Location = new System.Drawing.Point(448, 65);
+            this.itemButton.Margin = new System.Windows.Forms.Padding(2);
+            this.itemButton.Name = "itemButton";
+            this.itemButton.Size = new System.Drawing.Size(80, 24);
+            this.itemButton.TabIndex = 999;
+            this.itemButton.Text = "Find Ship";
+            this.itemButton.UseVisualStyleBackColor = false;
+            this.itemButton.Click += new System.EventHandler(this.itemButton_Click);
+            // 
+            // itemButton2
+            // 
+            this.itemButton2.BackColor = System.Drawing.Color.Transparent;
+            this.itemButton2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.itemButton2.Enabled = false;
+            this.itemButton2.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.itemButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.itemButton2.ForeColor = System.Drawing.Color.Black;
+            this.itemButton2.Location = new System.Drawing.Point(448, 99);
+            this.itemButton2.Margin = new System.Windows.Forms.Padding(2);
+            this.itemButton2.Name = "itemButton2";
+            this.itemButton2.Size = new System.Drawing.Size(80, 50);
+            this.itemButton2.TabIndex = 1000;
+            this.itemButton2.Text = "Find if enemy battleship was hit";
+            this.itemButton2.UseVisualStyleBackColor = false;
+            this.itemButton2.Click += new System.EventHandler(this.itemButton2_Click);
+            // 
+            // itemButton3
+            // 
+            this.itemButton3.BackColor = System.Drawing.Color.Transparent;
+            this.itemButton3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.itemButton3.Enabled = false;
+            this.itemButton3.FlatAppearance.BorderColor = System.Drawing.Color.Black;
+            this.itemButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.itemButton3.ForeColor = System.Drawing.Color.Black;
+            this.itemButton3.Location = new System.Drawing.Point(448, 160);
+            this.itemButton3.Margin = new System.Windows.Forms.Padding(2);
+            this.itemButton3.Name = "itemButton3";
+            this.itemButton3.Size = new System.Drawing.Size(80, 37);
+            this.itemButton3.TabIndex = 1001;
+            this.itemButton3.Text = "Jam enemy\'s items";
+            this.itemButton3.UseVisualStyleBackColor = false;
+            this.itemButton3.Click += new System.EventHandler(this.itemButton3_Click);
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label20);
@@ -2011,8 +2067,12 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.button3);
             this.groupBox2.Controls.Add(this.label21);
             this.groupBox2.Controls.Add(this.J11);
+            this.groupBox2.Controls.Add(this.itemButton);
+            this.groupBox2.Controls.Add(this.itemButton2);
+            this.groupBox2.Controls.Add(this.itemButton3);
             this.groupBox2.Controls.Add(this.label22);
             this.groupBox2.Controls.Add(this.I11);
             this.groupBox2.Controls.Add(this.label23);
@@ -2133,7 +2193,7 @@
             this.groupBox2.Controls.Add(this.C33);
             this.groupBox2.Location = new System.Drawing.Point(672, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(462, 469);
+            this.groupBox2.Size = new System.Drawing.Size(533, 469);
             this.groupBox2.TabIndex = 124;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Enemy Ships";
@@ -3952,9 +4012,10 @@
             this.labelAttackTurn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
             this.labelAttackTurn.Location = new System.Drawing.Point(523, 461);
             this.labelAttackTurn.Name = "labelAttackTurn";
-            this.labelAttackTurn.Size = new System.Drawing.Size(70, 20);
+            this.labelAttackTurn.Size = new System.Drawing.Size(49, 20);
             this.labelAttackTurn.TabIndex = 123;
-            this.labelAttackTurn.Text = "ATTACK";
+            this.labelAttackTurn.Text = "WAIT";
+            this.labelAttackTurn.Click += new System.EventHandler(this.labelAttackTurn_Click);
             // 
             // richTextBox1
             // 
@@ -3970,15 +4031,55 @@
             this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(1011, 486);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(65, 28);
+            this.button2.TabIndex = 136;
+            this.button2.Text = "Turn off background music";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(910, 486);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(66, 28);
+            this.button1.TabIndex = 135;
+            this.button1.Text = "Turn on background music";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.Transparent;
+            this.button3.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.ForeColor = System.Drawing.Color.Black;
+            this.button3.Location = new System.Drawing.Point(449, 202);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 1002;
+            this.button3.Text = "Undo move";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // Form4_GameScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1146, 496);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1216, 548);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.labelAttackTurn);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.MinimumSize = new System.Drawing.Size(1232, 587);
             this.Name = "Form4_GameScreen";
             this.Text = "Game - Server";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form4_GameScreen_FormClosed);
@@ -4114,6 +4215,9 @@
         private System.Windows.Forms.Button J5;
         private System.Windows.Forms.Button I1;
         private System.Windows.Forms.Button J1;
+        private System.Windows.Forms.Button itemButton;
+        private System.Windows.Forms.Button itemButton2;
+        private System.Windows.Forms.Button itemButton3;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label label21;
@@ -4241,5 +4345,8 @@
         private System.Windows.Forms.Label labelAttackTurn;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button3;
     }
 }

@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
 using System.IO;
+using BattleshipMpServer.Factory.Ship;
+using BattleshipMp.State;
 
 namespace BattleshipMp
 {
@@ -56,18 +58,18 @@ namespace BattleshipMp
         //  Call the "ServerStart" method in the Server class.
         private void buttonServerStart_Click(object sender, EventArgs e)
         {
-            Server.ServerStart(textBoxIpAddress.Text, textBoxPort.Text);
+            Server.GetInstance.ServerStart(textBoxIpAddress.Text, textBoxPort.Text);
         }
 
         //  Check if the client connects every 1 second. Activate the "Continue" button according to the result.
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (Server.client != null && Server.client.Connected)
+            if (Server.GetInstance.IsClientConnected)
             {
                 labelServerState.Text = "Player successfully connected.";
                 buttonGoToBoard.Enabled = true;
             }
-            else if (Server.listener != null)
+            else if (Server.GetInstance.IsListenerActive)
             {
                 labelServerState.Text = "The server is started. The player is awaited..";
             }
@@ -77,18 +79,19 @@ namespace BattleshipMp
             }
         }
 
-        //  Go to preparation stage (Form2)
+        //  Go to ship theme selection form, Form12
         private void buttonGoToBoard_Click(object sender, EventArgs e)
         {
 
             timer1.Stop();
 
-            Form2_PreparatoryScreen frm2 = new Form2_PreparatoryScreen();
-            frm2.Show();
+            GameContext gameContext = GameContext.Instance;
+            gameContext.TransitionTo(new SetupState());
+
             this.Visible = false;
         }
 
-        
+
 
         private void Form1_ServerScreen_Load(object sender, EventArgs e)
         {
@@ -97,12 +100,7 @@ namespace BattleshipMp
 
         private void Form1_ServerScreen_FormClosed(object sender, FormClosedEventArgs e)
         {
-            Server.client.Close();
-            Server.client.Dispose();
-            Server.client = null;
-
-            Server.listener.Stop();
-            Server.listener = null;
+            Server.GetInstance.CloseAndDispose();
 
             Environment.Exit(1);
         }
